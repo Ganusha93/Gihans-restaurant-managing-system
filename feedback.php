@@ -35,7 +35,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				});
 			});
 		</script>
-<script src="js/simpleCart.min.js"> </script>	
+<script src="js/simpleCart.min.js"> </script>
+
+<script type="text/javascript">
+    window.onload = function() {
+        var overlay = document.getElementById("overlay");
+        var popup = document.getElementById("popup");
+        overlay.style.display = "block";
+        popup.style.display = "block";
+    
+    document.getElementById("CloseBtn").onclick = function(){
+            var overlay = document.getElementById("overlay");
+            var popup = document.getElementById("popup");
+            overlay.style.display = "none";
+            popup.style.display = "none";      
+        }
+    };
+</script>
 </head>
 <body>
     <!-- header-section-starts -->
@@ -67,7 +83,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<li><a href="index.html">Home</a></li>|
 						<li><a href="popular-restaurents.html">Popular Restaurants</a></li>|
 						<li><a href="order.html">Order</a></li>|
-						<li class="active"><a href="#contact" class="scroll">contact</a></li>
+						<li><a href="contact.html">Contact</a></li>|
+						<li class="active"><a href="#feedback" class="scroll">Feedback</a></li>
 						<div class="clearfix"></div>
 					</ul>
 				</div>
@@ -90,12 +107,59 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<p>Home/Feedback</p>
 			</div>
 		</div>
+
+    <?php
+        require "dbcon/dbcon.php";
+
+        $error=FALSE;
+            $yourname = $fdback = ""; 
+            
+            if (isset($_POST['submit'])) {
+                
+                if(empty($_POST['yourname'])){ 
+                    $error = TRUE;
+                }else{
+                    $yourname = $_POST['yourname'];
+                }
+                
+                if(empty($_POST['fdback'])){ 
+                    $error = TRUE;
+                }else{
+                    $fdback = $_POST['fdback'];
+                }
+            
+                if ($error==FALSE){
+                $sql = "INSERT INTO 'feedback'('yourname', 'fdback') VALUES ('$_POST[yourname]','$_POST[fdback]')";
+
+                if(mysqli_query($conn,$sql)){
+                    echo '<div id="overlay"></div>';
+                    echo '<div id="popup" align = "center">';
+                    echo '<div id="popcon">';
+                    echo '<div id="pophead">';
+                    echo 'Feedback submission';
+                    echo '</div>';
+                    echo '<div id="popbody">';
+                    echo 'Thank you for submiting your feedback';
+                    echo '</div>';
+                    echo '<div id="popfooter">';
+                    echo '<a id="CloseBtn" href="feedback.php">Ok</a>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    die();
+                } else{
+                    echo "<script type='text/javascript'>alert('Not successfully datatranfer!')</script>";}
+                }
+            }
+        ?>
+
 		<div class="contact_top">
 			 		<div class="container">
 			 			<div class="col-md-6 contact_left wow fadeInRight" data-wow-delay="0.4s">
-			 				<h4>Feedback Form</h4>
+			 				
 			 				<p>We would love to hear your thoughts, concerns with anything,so we can improve!<br><br> Please take a minute to let us know what you think about us.</p>
-							  <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+							<form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+							  	<form id="fb5" action="feedback.php" method="post">
 								 <div class="form_details">
 					                 <input type="text" class="text" value="Your Name" id="yourname" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Your Name';}">
 
@@ -103,11 +167,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 									 <div class="clearfix"> </div>
 									 <div class="sub-button wow swing animated" data-wow-delay= "0.4s">
-									 	<input name="submit" type="submit" value="Send message">
+									 	<input type="submit" name="submit" value="Send Feedback"<?php if ($error==FALSE){}?>>
 									 </div>
 						          </div>
-						       </form>
-						       <div class="col-md-6 company-right wow fadeInLeft" data-wow-delay="0.4s">
+						        </form>
+						    </form>
+						    <div class="col-md-6 company-right wow fadeInLeft" data-wow-delay="0.4s">
 					        	     	
 									<div class="follow-us">
 										<h3>follow us on</h3>
