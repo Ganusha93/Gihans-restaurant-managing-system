@@ -81,7 +81,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="top-menu">
 					<ul>
 						<li><a href="index.html">Home</a></li>|
-						<li><a href="popular-restaurents.html">Popular Restaurants</a></li>|
+						<li><a href="branches.html">Our Branches</a></li>|
 						<li><a href="order.html">Order</a></li>|
 						<li><a href="contact.html">Contact</a></li>|
 						<li class="active"><a href="#feedback" class="scroll">Feedback</a></li>
@@ -108,11 +108,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 		</div>
 
-    <?php
+		<div class="contact_top">
+			 		<div class="container">
+			 			<div class="col-md-6 contact_left wow fadeInRight" data-wow-delay="0.4s">
+			 				
+			 				<p>We would love to hear your thoughts, concerns with anything,so we can improve!<br><br> Please take a minute to let us know what you think about us.</p>
+	<?php
         require "dbcon/dbcon.php";
 
         $error=FALSE;
-            $yourname = $fdback = ""; 
+        $yourname = $fdback = ""; 
             
             if (isset($_POST['submit'])) {
                 
@@ -129,8 +134,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 }
             
                 if ($error==FALSE){
-                $sql = "INSERT INTO 'feedback'('yourname', 'fdback') VALUES ('$_POST[yourname]','$_POST[fdback]')";
-
+                $sql = "INSERT INTO feedback(yourname, fdback) VALUES ('$yourname','$fdback')";
                 if(mysqli_query($conn,$sql)){
                     echo '<div id="overlay"></div>';
                     echo '<div id="popup" align = "center">';
@@ -153,21 +157,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             }
         ?>
 
-		<div class="contact_top">
-			 		<div class="container">
-			 			<div class="col-md-6 contact_left wow fadeInRight" data-wow-delay="0.4s">
-			 				
-			 				<p>We would love to hear your thoughts, concerns with anything,so we can improve!<br><br> Please take a minute to let us know what you think about us.</p>
+
 							<form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
 							  	<form id="fb5" action="feedback.php" method="post">
 								 <div class="form_details">
-					                 <input type="text" class="text" value="Your Name" id="yourname" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Your Name';}">
+					                 <input type="text" class="text" value="Your Name" id="yourname" name="yourname" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Your Name';}">
 
-									 <textarea value="Feedback" id="fdback" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Feedback';}">Feedback</textarea>
+									 <textarea value="Feedback" name="fdback" id="fdback" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Feedback';}">Feedback</textarea>
 
 									 <div class="clearfix"> </div>
 									 <div class="sub-button wow swing animated" data-wow-delay= "0.4s">
-									 	<input type="submit" name="submit" value="Send Feedback"<?php if ($error==FALSE){}?>>
+									 	<input type="submit" name="submit" value="Send Feedback">
 									 </div>
 						          </div>
 						        </form>
