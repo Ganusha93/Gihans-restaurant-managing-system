@@ -81,8 +81,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="top-menu">
 					<ul>
 						<li><a href="index.html">Home</a></li>|
-						<li><a href="branches.html">Our Branches</a></li>|
-						<li><a href="order.html">Order</a></li>|
+						<li><a href="branches.html">Branches</a></li>|
+						<li><a href="#">Gallery</a></li>|
+						<li><a href="#">Shopping Cart</a></li>|
+						<li><a href="#">Table Reservation</a></li>|
 						<li><a href="contact.html">Contact</a></li>|
 						<li class="active"><a href="#feedback" class="scroll">Feedback</a></li>
 						<div class="clearfix"></div>
@@ -112,9 +114,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			 		<div class="container">
 			 			<div class="col-md-6 contact_left wow fadeInRight" data-wow-delay="0.4s">
 			 				
-			 				<p>We would love to hear your thoughts, concerns with anything,so we can improve!<br><br> Please take a minute to let us know what you think about us.</p>
+			 				<p>We would love to hear your thoughts, concerns with anything, so we can improve!<br><br> Please take a minute to let us know what you think about us.</p>
 	<?php
-        require "dbcon/dbcon.php";
+		#connecting to database
+		$conn=mysqli_connect("localhost","root","","gihans_db");
+		if(!$conn){
+		    echo "connection failed".mysqli_connect_error();
+		}
 
         $error=FALSE;
         $yourname = $fdback = ""; 
@@ -136,23 +142,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 if ($error==FALSE){
                 $sql = "INSERT INTO feedback(yourname, fdback) VALUES ('$yourname','$fdback')";
                 if(mysqli_query($conn,$sql)){
-                    echo '<div id="overlay"></div>';
-                    echo '<div id="popup" align = "center">';
-                    echo '<div id="popcon">';
-                    echo '<div id="pophead">';
-                    echo 'Feedback submission';
-                    echo '</div>';
-                    echo '<div id="popbody">';
-                    echo 'Thank you for submiting your feedback';
-                    echo '</div>';
-                    echo '<div id="popfooter">';
-                    echo '<a id="CloseBtn" href="feedback.php">Ok</a>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
+
+        ?>
+                    <div id="popup" align = "center">
+                    <h2>Thank you for submiting your feedback :D</h2><br/><br/>
+                    </div>
+                    <div class="sub-button wow swing animated" data-wow-delay= "0.4s">
+			      	<input type="button" onclick="location.href='feedback.php';" value="OK" />
+					</div>
+        <?php
                     die();
                 } else{
                     echo "<script type='text/javascript'>alert('Not successfully datatranfer!')</script>";}
+                }
+                else{
+		?>
+					<div id="popup" align = "center">
+                    <h2>Please fill all fields and resubmiting your feedback :D</h2><br/><br/>
+                    </div>
+                    <div class="sub-button wow swing animated" data-wow-delay= "0.4s">
+			      	<input type="button" onclick="location.href='feedback.php';" value="OK" />
+					</div>
+		<?php
                 }
             }
         ?>
@@ -161,9 +172,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
 							  	<form id="fb5" action="feedback.php" method="post">
 								 <div class="form_details">
-					                 <input type="text" class="text" value="Your Name" id="yourname" name="yourname" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Your Name';}">
+					                 <input type="text" class="text" id="yourname" name="yourname" placeholder="Your Name">
 
-									 <textarea value="Feedback" name="fdback" id="fdback" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Feedback';}">Feedback</textarea>
+									 <textarea placeholder="Feedback" name="fdback" id="fdback"></textarea>
 
 									 <div class="clearfix"> </div>
 									 <div class="sub-button wow swing animated" data-wow-delay= "0.4s">
@@ -181,9 +192,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										<a href="#"><i class="google-pluse"></i></a>
 									</div>
 			
-							
 							</div>
 					        </div>
+					        <div>
+				        		<img src="http://www.arebbusch.com/wp-content/uploads/2011/02/Feedback.jpg" align="center" width="35%" height="55%">
+				        	</div>
 
 						</div>
 					</div>
